@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+var parser = require("nomnom")
+   , coucherjs = require('../lib/coucher')
+
+//Processing of database jobs
+parser.command('database')
+   .option('connect', { abbr: 'c', help: "connection string", required: true })
+   .option('action', { abbr: 'a', help: "operation action, one of [create | delete]", required: true })
+   .option('dblist', { abbr:'d', help: 'database list by comment', required: true })
+   .option('remote', { abbr:'r', help: 'remote/target database for replicate', required: true })
+   .callback(dodbjob)
+   .help("Couchdb database create cli tool, use: \n$ coucher -c [http://user:pass@up-address:port] -a [create | delete] -d [db1[,db2,...]]")
+
+//Processing of view jobs
+parser.command('view')
+   .option('connect', { abbr: 'c', help: "connection string", required: true })
+   .option('database', { abbr: 'd', help: "database name", required: true })
+   .option('action', { abbr: 'a', help: "operation action, one of [dump | import]", required: true })
+   .option('viewlist', { abbr: 'v', help: "view name", required: true })
+   .callback(doviewjob)
+   .help("run the sanity tests")
+
+
+parser.parse();
+
+function dodbjob(opts){
+   coucherjs.setup(opts.connect);
+   var arr = opts.dblist.split(',');
+   if(opts.action == 'create')
+      coucherjs.toolbox.database.createdb(arr);
+   else if(opts.action == 'delete')
+      coucherjs.toolbox.database.deletedb(arr);
+   else if(opts.action == 'replicate')
+      coucherjs.toolbox.database.replicate(arr, opts.remote);
+   else
+      console.log('action not found');
+}
+
+function doviewjob(opts){
+   coucherjs.setup(opts.connect);
+   var arr = opts.viewlist.split(',');
+   if(['dump', 'import'].indexOf(opts.action) >= 0) {
+      opts.viewlist = opts.viewlist.split(',');
+      dojob(opts.database, opts.viewlist.pop());
+      function dojob(dbname, viewgrp) {
+         coucherjs.toolbox.view[opts.action](dbname, viewgrp);
+         if(opts.viewlist.length >0) dojob(opts.database, opts.viewlist.pop());
+      }
+   } else
+      console.log('action not found');
+}
