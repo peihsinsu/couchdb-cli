@@ -2,6 +2,12 @@
 
 Some tools for CLI use to do db jobs...
 
+## Install
+
+```
+sudo npm install couchdb-cli -g
+```
+
 ## DB create
 
 ```
