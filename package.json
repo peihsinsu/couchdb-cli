@@ -1,19 +1,18 @@
 {
   "name": "couchdb-cli",
-	"bin": {
+  "bin": {
     "coucher": "./bin/coucher"
   },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "couchdb tools for dump view, replicate data",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
     "underscore": "~1.6.0",
     "cradle": "~0.6.7",
     "nodeutil": "0.0.29",
-    "commander": "~2.3.0"
+    "nomnom": "~1.8.0"
   }
 }
