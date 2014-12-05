@@ -7,9 +7,9 @@ parser.command('database')
    .option('connect', { abbr: 'c', help: "connection string", required: true })
    .option('action', { abbr: 'a', help: "operation action, one of [create | delete]", required: true })
    .option('dblist', { abbr:'d', help: 'database list by comment', required: true })
-   .option('remote', { abbr:'r', help: 'remote/target database for replicate', required: true })
+   .option('remote', { abbr:'r', help: 'remote/target database for replicate', required: false })
    .callback(dodbjob)
-   .help("Couchdb database create cli tool, use: \n$ coucher -c [http://user:pass@up-address:port] -a [create | delete] -d [db1[,db2,...]]")
+   .help("\n  Couchdb database create cli tool, use: \n  coucher database -c [http://user:pass@up-address:port] -a [create | delete | replicate] -d [db1[,db2,...]]")
 
 //Processing of view jobs
 parser.command('view')
@@ -18,7 +18,7 @@ parser.command('view')
    .option('action', { abbr: 'a', help: "operation action, one of [dump | import]", required: true })
    .option('viewlist', { abbr: 'v', help: "view name", required: true })
    .callback(doviewjob)
-   .help("run the sanity tests")
+   .help("\n  Couchdb view help tool, use: \n  coucher view -c [http://user:pass@up-address:port] -a [dump | import] -d [db1[,db2,...]] -v [view1[,view2,...]]")
 
 
 parser.parse();

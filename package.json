@@ -3,7 +3,7 @@
   "bin": {
     "coucher": "./bin/coucher"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "couchdb tools for dump view, replicate data",
   "main": "index.js",
   "scripts": {},
